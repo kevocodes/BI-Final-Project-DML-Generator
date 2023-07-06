@@ -5,8 +5,8 @@ export const createAirplane = (id) => {
   const idCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
   return {
-    code: faker.string.fromCharacters(idCharacters, 8),
-    model: faker.airline.airplane().name,
+    code: faker.string.fromCharacters(idCharacters, 6),
+    model: faker.airline.airplane().name.slice(0, 10).trim(),
     year: faker.number.int({ min: 1940, max: 2023}),
   }
 }
