@@ -29,8 +29,8 @@ export const getFlights = async (airplanes) => {
     const originIndex = getRandomNumber(0, iataCodes.length - 1);
     const destinationIndex = getRandomNumber(0, iataCodes.length - 1);
 
-    const origin = getMappedIataCode(originIndex, iataCodes);
-    const destination = getMappedIataCode(destinationIndex, iataCodes);
+    const origin = getMappedIataCode(originIndex, iataCodes).slice(0, 3).trim();
+    const destination = getMappedIataCode(destinationIndex, iataCodes).slice(0, 3).trim();
 
     //This is for debugging purposes: validate that the origin index and destination index are correct
     // console.log(`index: ${originIndex}, origin: ${origin} -> ${iataCodes.map((code)=> code.Code).indexOf(origin)}}`)

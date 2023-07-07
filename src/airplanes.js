@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { config } from '../src/config/index.js'
 
-export const createAirplane = (id) => {
+export const createAirplane = () => {
   const idCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 
   return {
