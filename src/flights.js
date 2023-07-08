@@ -3,10 +3,10 @@ import { config } from '../src/config/index.js'
 import { getRandomNumber } from "./utils/random.util.js"
 import { getIataCodes } from "./csv-codes.js"
 import { getMappedIataCode } from "./helpers/csv.helper.js"
+import { getFlightsQueryWhitMultipleInserts, getFlightsQueryWhitOneInsert} from "./helpers/flights.helper.js"
 
-export const createFlight = (id, airplane, destination, origin) => {
+export const createFlight = (airplane, destination, origin) => {
   return {
-    id,
     airplane,
     origin,
     destination,
@@ -23,7 +23,6 @@ export const getFlights = async (airplanes) => {
   const iataCodes = await getIataCodes(config.csvFile);
 
   for (let i = 0; i < count; i++) {
-    const id = i + 1;
     const airplaneId = getRandomNumber(1, airplanes.length);
 
     const originIndex = getRandomNumber(0, iataCodes.length - 1);
@@ -37,7 +36,7 @@ export const getFlights = async (airplanes) => {
     // console.log(`index: ${destinationIndex}, destination: ${destination}  -> ${iataCodes.map((code)=> code.Code).indexOf(destination)}}`)
     // console.log('-------------------')
 
-    const flight = createFlight(id, airplaneId, destination, origin);
+    const flight = createFlight(airplaneId, destination, origin);
     flights.push(flight);
   }
 
@@ -45,15 +44,9 @@ export const getFlights = async (airplanes) => {
 }  
 
 export const generateFlightsQuery = (flights) => {
-  const query = `INSERT INTO detail.flight (id, airplane, origin, destination, departure, arrival, flightMiles) VALUES\n`;
-
-  return flights.reduce((acc, flight, index) => {
-    const values = `(${flight.id}, ${flight.airplane}, '${flight.origin}', '${flight.destination}', '${flight.departure.toISOString().slice(0, 19).replace('T', ' ')}', '${flight.arrival.toISOString().slice(0, 19).replace('T', ' ')}', ${flight.flightMiles})`;
-
-    if (index === flights.length - 1) {
-      return acc + values + ';';
-    }
-
-    return acc + values + ',\n';
-  }, query);
+  if (config.multipleInserts) {
+    return getFlightsQueryWhitMultipleInserts(flights);
+  }
+  
+  return getFlightsQueryWhitOneInsert(flights);
 }

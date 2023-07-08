@@ -1,5 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { config } from '../src/config/index.js'
+import { getAirplanesQueryWhitOneInsert, getAirplanesQueryWhitMultipleInserts } from './helpers/airplanes.helper.js'
+
 
 export const createAirplane = () => {
   const idCharacters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
@@ -31,15 +33,9 @@ export const getAirplanes = () => {
 }
 
 export const generateAirplanesQuery = (airplanes) => {
-  const query = `INSERT INTO airplane (code, model, year) VALUES\n`;
-  
-  return airplanes.reduce((acc, airplane, index) => {
-    const values = `('${airplane.code}', '${airplane.model}', ${airplane.year})`;
+  if(config.multipleInserts) {
+    return getAirplanesQueryWhitMultipleInserts(airplanes);
+  }
 
-    if (index === airplanes.length - 1) {
-      return acc + values + ';';
-    }
-
-    return acc + values + ',\n';
-  }, query);
+  return getAirplanesQueryWhitOneInsert(airplanes);
 };
