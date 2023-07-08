@@ -30,8 +30,9 @@ AIRPLANES_COUNT = 10
 FLIGHTS_COUNT = 50
 RESULT_FILES_BASE_PATH = './generated' 
 CSV_PATH = './resources/IATA Codes.csv'
+MULTIPLE_INSERTS = true
 ```
-Where `AIRPLANES_COUNT` is the number of airplane records you want to create, `FLIGHTS_COUNT` is the number of flight records you want to create, `RESULT_FILES_BASE_PATH` is the path to the folder where the scripts will be saved, and `CSV_PATH` is the path to the IATA Codes.csv file.
+Where `AIRPLANES_COUNT` is the number of airplane records you want to create, `FLIGHTS_COUNT` is the number of flight records you want to create, `RESULT_FILES_BASE_PATH` is the path to the folder where the scripts will be saved, `CSV_PATH` is the path to the IATA Codes.csv file and `MULTIPLE_INSERTS` is the boolean value that allows defining wheter the scripts execute a single insert for all records or one insert per record.
 
 Once the environment variables are configured, run the program with the following command:
 
